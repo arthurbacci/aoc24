@@ -35,17 +35,6 @@ ghc-options:
 library:
   source-dirs: src
 
-executables:
-  aoc24-exe:
-    main:                Main.hs
-    source-dirs:         app
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
-    dependencies:
-    - aoc24
-
 tests:
   aoc24-test:
     main:                Spec.hs
