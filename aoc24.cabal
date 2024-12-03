@@ -1,0 +1,70 @@
+cabal-version: 2.2
+
+-- This file has been generated from package.yaml by hpack version 0.37.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           aoc24
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/arthurbacci/aoc24#readme>
+homepage:       https://github.com/arthurbacci/aoc24#readme
+bug-reports:    https://github.com/arthurbacci/aoc24/issues
+author:         Arthur Bacci
+maintainer:     arthurbacci@protonmail.com
+copyright:      Copyright (c) 2024 Arthur B. Oliveira
+license:        Unlicense
+license-file:   LICENSE
+build-type:     Simple
+
+source-repository head
+  type: git
+  location: https://github.com/arthurbacci/aoc24
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_aoc24
+  autogen-modules:
+      Paths_aoc24
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      base >=4.7 && <5
+    , megaparsec >=9.5
+    , text
+  default-language: Haskell2010
+
+executable aoc24-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_aoc24
+  autogen-modules:
+      Paths_aoc24
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aoc24
+    , base >=4.7 && <5
+    , megaparsec >=9.5
+    , text
+  default-language: Haskell2010
+
+test-suite aoc24-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_aoc24
+  autogen-modules:
+      Paths_aoc24
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aoc24
+    , base >=4.7 && <5
+    , megaparsec >=9.5
+    , text
+  default-language: Haskell2010
