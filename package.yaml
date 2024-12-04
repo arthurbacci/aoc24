@@ -45,3 +45,8 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - aoc24
+
+data-dir: data
+data-files:
+- data*.txt
+- answer*.txt

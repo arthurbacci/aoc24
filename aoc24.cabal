@@ -15,6 +15,11 @@ copyright:      Copyright (c) 2024 Arthur B. Oliveira
 license:        Unlicense
 license-file:   LICENSE
 build-type:     Simple
+data-files:
+    data01.txt
+    answer01.txt
+    answer02.txt
+data-dir:       data
 
 source-repository head
   type: git
@@ -22,6 +27,8 @@ source-repository head
 
 library
   exposed-modules:
+      Day1
+      Day2
       Lib
   other-modules:
       Paths_aoc24
