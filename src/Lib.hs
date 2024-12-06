@@ -8,6 +8,7 @@ import qualified Data.Text.IO as TIO
 
 import Day1
 import Day2
+import Day3
 
 type DayNum = String
 
@@ -18,4 +19,4 @@ days = mapM processDay incompleteDays
     fp <- getDataFileName $ "data" ++ daynum ++ ".txt"
     txt <- TIO.readFile fp
     return (day txt, daynum)
-  incompleteDays = [(day1, "01"), (day2, "02")]
+  incompleteDays = [(day1, "01"), (day2, "02"), (day3, "03")]

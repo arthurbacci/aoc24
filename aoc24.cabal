@@ -18,8 +18,10 @@ build-type:     Simple
 data-files:
     data01.txt
     data02.txt
+    data03.txt
     answer01.txt
     answer02.txt
+    answer03.txt
 data-dir:       data
 
 source-repository head
@@ -30,6 +32,7 @@ library
   exposed-modules:
       Day1
       Day2
+      Day3
       Lib
   other-modules:
       Paths_aoc24
