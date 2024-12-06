@@ -2,13 +2,12 @@ module Day1
   ( day1
   ) where
 
-import Control.Monad (void)
 import Data.Text (Text)
 import Data.Void (Void)
 import Data.Maybe (fromJust, fromMaybe)
 import Data.List (sort)
 import qualified Data.List.NonEmpty as NE
-import Text.Megaparsec (Parsec, parseMaybe, parseTest, many, some)
+import Text.Megaparsec (Parsec, parseMaybe, many, some)
 import Text.Megaparsec.Char (space, hspace1, digitChar)
 
 type Parser = Parsec Void Text
