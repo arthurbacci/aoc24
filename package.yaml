@@ -21,6 +21,7 @@ dependencies:
 - text
 - megaparsec >= 9.5
 - split
+- transformers
 
 ghc-options:
 - -Wall
