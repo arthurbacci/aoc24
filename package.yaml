@@ -22,6 +22,7 @@ dependencies:
 - megaparsec >= 9.5
 - split
 - transformers
+- ilist
 
 ghc-options:
 - -Wall
