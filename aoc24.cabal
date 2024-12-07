@@ -20,10 +20,12 @@ data-files:
     data02.txt
     data03.txt
     data04.txt
+    data05.txt
     answer01.txt
     answer02.txt
     answer03.txt
     answer04.txt
+    answer05.txt
 data-dir:       data
 
 source-repository head
@@ -36,6 +38,7 @@ library
       Day2
       Day3
       Day4
+      Day5
       Lib
   other-modules:
       Paths_aoc24
