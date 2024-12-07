@@ -23,6 +23,7 @@ dependencies:
 - split
 - transformers
 - ilist
+- extra
 
 ghc-options:
 - -Wall
