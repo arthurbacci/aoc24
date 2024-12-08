@@ -24,7 +24,7 @@ dependencies:
 - transformers
 - ilist
 - extra
-- containers
+- criterion
 
 ghc-options:
 - -Wall
