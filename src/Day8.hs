@@ -5,6 +5,7 @@ import Data.Void
 import Data.Maybe (fromJust)
 import Data.Function
 import Data.List (groupBy, sortBy, nub)
+import Data.Ix
 import Control.Monad (void)
 import Text.Megaparsec
 import Text.Megaparsec.Char
@@ -39,12 +40,14 @@ removeOutOfBounds p = filter
   $ \t -> pX t >= 0 && pY t >= 0 && pX t <= pX p && pY t <= pY p
 
 antinodes :: (Aerial, Aerial) -> [Antinode]
-antinodes (a1, a2) = fmap genAntinode $ calcApol (aerialPos a1) (aerialPos a2)
+antinodes (a1, a2) = fmap genAntinode $ calcApols (aerialPos a1) (aerialPos a2)
   where
   genAntinode p = Antinode { originAerialId = aerialId a1
                            ,    antinodePos = p }
-  calcApol p1 p2 = [ Point (2 * pX p2 - pX p1) (2 * pY p2 - pY p1)
-                   , Point (2 * pX p1 - pX p2) (2 * pY p1 - pY p2) ]
+  calcApols p1 p2 = concat $ fmap (calcApol p1 p2) $ range (1, 100)
+  calcApol p1 p2 n = [ Point (n * pX p2 - (n - 1) * pX p1) (n * pY p2 - (n - 1) * pY p1)
+                     , Point (n * pX p1 - (n - 1) * pX p2) (n * pY p1 - (n - 1) * pY p2) ]
+
 
 groupAerials :: [Aerial] -> [[Aerial]]
 groupAerials = groupBy ((==) `on` aerialId) . sortBy (compare `on` aerialId)
