@@ -5,49 +5,53 @@ import Data.Void
 import Data.Maybe (fromJust)
 import Data.Function
 import Data.List (groupBy, sortBy, nub)
-import Data.Ix
 import Control.Monad (void)
+import Control.Lens.Getter (view)
 import Text.Megaparsec
 import Text.Megaparsec.Char
+import Linear.V2
 
 type Parser = Parsec Void Text
 
-data Point = Point { pX :: Int
-                   , pY :: Int }
-  deriving (Show, Eq)
+type Point = V2 Int
 
 type AerialId = Char
 
 data Aerial = Aerial {  aerialId :: AerialId
-                     , aerialPos :: Point }
-  deriving Show
+                     , aerialPos :: Point } deriving Show
 
 data Antinode = Antinode { originAerialId :: AerialId
-                         ,    antinodePos :: Point }
-  deriving (Show, Eq)
+                         ,    antinodePos :: Point } deriving (Show, Eq)
+
+data Part = One | Two
 
 day8 :: Text -> (String, String)
-day8 d = (show $ part1 parsed, show $ snd parsed)
+day8 d = (show $ part One parsed, show $ part Two parsed)
   where parsed = fromJust $ parseMaybe (parser <* takeRest) d
 
-part1 :: ([Aerial], Point) -> Int
-part1 (a, p) = length $ removeOutOfBounds p $ nub
+part :: Part -> ([Aerial], Point) -> Int
+part p (a, l) = length $ nub
   $ fmap antinodePos $ concat $ concat
-  $ (fmap antinodes) <$> aerialPairs <$> groupAerials a
+  $ (fmap $ antinodes p l) <$> aerialPairs <$> groupAerials a
 
-removeOutOfBounds :: Point -> [Point] -> [Point]
-removeOutOfBounds p = filter
-  $ \t -> pX t >= 0 && pY t >= 0 && pX t <= pX p && pY t <= pY p
+isInBounds :: Point -> Point -> Bool
+isInBounds l t = xt >= 0 && yt >= 0 && xt <= xl && yt <= yl
+  where { xt = view _x t; xl = view _x l
+        ; yt = view _y t; yl = view _y l }
 
-antinodes :: (Aerial, Aerial) -> [Antinode]
-antinodes (a1, a2) = fmap genAntinode $ calcApols (aerialPos a1) (aerialPos a2)
-  where
-  genAntinode p = Antinode { originAerialId = aerialId a1
-                           ,    antinodePos = p }
-  calcApols p1 p2 = concat $ fmap (calcApol p1 p2) $ range (1, 100)
-  calcApol p1 p2 n = [ Point (n * pX p2 - (n - 1) * pX p1) (n * pY p2 - (n - 1) * pY p1)
-                     , Point (n * pX p1 - (n - 1) * pX p2) (n * pY p1 - (n - 1) * pY p2) ]
+antinodes :: Part -> Point -> (Aerial, Aerial) -> [Antinode]
+antinodes p l (a1, a2) = genAntinode <$> ((calcApols p l) `on` aerialPos) a1 a2
+  where genAntinode p = Antinode { originAerialId = aerialId a1
+                                 ,    antinodePos = p }
 
+calcApols :: Part -> Point -> Point -> Point -> [Point]
+calcApols p l p1 p2 =
+  case p of
+    One -> filter (isInBounds l) [calcApol p1 p2 2, calcApol p2 p1 2]
+    Two -> concat $ [filterInBounds p1 p2, filterInBounds p2 p1]
+  where calcApol a b n = n * b - (n - 1) * a
+        filterInBounds a b = takeWhile (isInBounds l)
+                           $ (calcApol a b) <$> return <$> [1..]
 
 groupAerials :: [Aerial] -> [[Aerial]]
 groupAerials = groupBy ((==) `on` aerialId) . sortBy (compare `on` aerialId)
@@ -73,7 +77,7 @@ getPoint = do
   sourcePos <- getSourcePos
   let x = unPos $ sourceColumn sourcePos
   let y = unPos $ sourceLine sourcePos
-  return $ Point (x - 2) (y - 1)
+  return $ V2 (x - 2) (y - 1)
 
 parseAir :: Parser ()
 parseAir = void $ many $ (void $ char '.') <|> (void eol)

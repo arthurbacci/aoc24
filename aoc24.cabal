@@ -58,6 +58,8 @@ library
     , criterion
     , extra
     , ilist
+    , lens
+    , linear
     , megaparsec >=9.5
     , split
     , text
@@ -80,6 +82,8 @@ test-suite aoc24-test
     , criterion
     , extra
     , ilist
+    , lens
+    , linear
     , megaparsec >=9.5
     , split
     , text

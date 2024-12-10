@@ -25,6 +25,8 @@ dependencies:
 - ilist
 - extra
 - criterion
+- linear
+- lens
 
 ghc-options:
 - -Wall
