@@ -23,6 +23,7 @@ data-files:
     data05.txt
     data07.txt
     data08.txt
+    data09.txt
     answer01.txt
     answer02.txt
     answer03.txt
@@ -30,6 +31,7 @@ data-files:
     answer05.txt
     answer07.txt
     answer08.txt
+    answer09.txt
 data-dir:       data
 
 source-repository head
@@ -45,6 +47,7 @@ library
       Day5
       Day7
       Day8
+      Day9
       Lib
   other-modules:
       Paths_aoc24
