@@ -19,6 +19,9 @@ import Day7
 import Day8
 import Day9
 
+
+import Day12
+
 type DayNum = String
 
 type Answer = (String, String)
@@ -38,8 +41,9 @@ createDay f n = Day { runDay = liftDay n f
 
 days :: [Day]
 days = fmap (uncurry createDay) incompleteDays
-  where incompleteDays = [ (day1, "01"), (day2, "02"), (day3, "03")
-                         , (day4, "04"), (day5, "05")
-                         , (day7, "07"), (day8, "08"), (day9, "09") ]
+  where incompleteDays = [ (day1 , "01"), (day2 , "02"), (day3 , "03")
+                         , (day4 , "04"), (day5 , "05")
+                         , (day7 , "07"), (day8 , "08"), (day9 , "09")
+                                                       , (day12, "12") ]
 
 

@@ -24,6 +24,7 @@ data-files:
     data07.txt
     data08.txt
     data09.txt
+    data12.txt
     answer01.txt
     answer02.txt
     answer03.txt
@@ -32,6 +33,7 @@ data-files:
     answer07.txt
     answer08.txt
     answer09.txt
+    answer12.txt
 data-dir:       data
 
 source-repository head
@@ -41,6 +43,7 @@ source-repository head
 library
   exposed-modules:
       Day1
+      Day12
       Day2
       Day3
       Day4
@@ -68,6 +71,7 @@ library
     , split
     , text
     , transformers
+    , unordered-containers
   default-language: Haskell2010
 
 test-suite aoc24-test
@@ -93,4 +97,5 @@ test-suite aoc24-test
     , split
     , text
     , transformers
+    , unordered-containers
   default-language: Haskell2010

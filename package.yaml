@@ -28,6 +28,7 @@ dependencies:
 - linear
 - lens
 - containers
+- unordered-containers
 
 ghc-options:
 - -Wall
