@@ -27,6 +27,7 @@ dependencies:
 - criterion
 - linear
 - lens
+- containers
 
 ghc-options:
 - -Wall

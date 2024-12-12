@@ -2,9 +2,10 @@ module Day9 (day9) where
 
 import Data.Text (Text)
 import Data.Void
-import Data.List (singleton, find, foldl')
+import Data.List (singleton, find, foldl', group)
 import Data.List.Index (imap)
 import Data.Maybe (fromJust)
+import qualified Data.Set as Set
 import Control.Monad.Trans.State (State, modify, get, runState)
 import Control.Monad.Trans.Class (lift)
 import Text.Megaparsec hiding (State)
@@ -13,7 +14,7 @@ import Text.Megaparsec.Char
 type Parser = ParsecT Void Text (State ParseState)
 
 data ParseData = Space | File Int
-  deriving Show
+  deriving (Show, Eq)
 
 data ParseState = ParseState { lastParsed :: ParseData
                              ,     nextId :: Int } deriving Show
@@ -21,27 +22,47 @@ data ParseState = ParseState { lastParsed :: ParseData
 defaultParseState :: ParseState
 defaultParseState = ParseState Space 0
 
-isFile :: ParseData -> Bool
-isFile (File _) = True
-isFile Space = False
+fileNum :: ParseData -> Int
+fileNum (File x) = x
+fileNum Space = error "no file num for space"
 
 day9 :: Text -> (String, String)
 day9 d = case runState (runParserT parser "" d) defaultParseState of
-  (Right x, _) -> (show $ part1 x, "")
+  (Right x, _) -> (show $ part1 x, show $ part2 x)
   (Left _, _)  -> error "couldn't parse"
 
 part1 :: [ParseData] -> Int
 part1 d = sum $ imap checksum filled
   where
-  numFiles = length $ filter isFile d
+  numFiles = length $ filter (/= Space) d
   breakPoint = (+ 1) $ fst $ fromJust $ find (\(_, (a, b)) -> a == b)
     $ foldl' foldBreakPoint [(0, (0, numFiles - 1))] d
   toFill = fst $ splitAt breakPoint d
-  toUse = filter isFile $ snd $ splitAt breakPoint d
+  toUse = filter (/= Space) $ snd $ splitAt breakPoint d
   filled = fst $ foldr foldFill ([], toUse) toFill
-  checksum i (File x) = i * x
-  checksum _ _ = error "checksum of space"
-  
+
+part2 :: [ParseData] -> Int
+part2 d = sum $ imap checksum $ doMovement Set.empty d
+  where
+  filesInReverseOrder = reverse $ filter ((/= Space) . head) $ group d
+  doMovement _ [] = []
+  doMovement processed (File x:xs) = if x `Set.member` processed
+                                     then (Space:doMovement processed xs)
+                                     else (File x:doMovement processed xs)
+  doMovement processed r = case toInsert of
+    Just f -> f ++ (doMovement (Set.insert (fileNum $ head f) processed)
+                    $ drop (length f) r)
+    Nothing -> (Space:(doMovement processed $ tail r))
+    where
+    numSpaces = length $ head $ group r
+    toInsert = find shouldBeInsert filesInReverseOrder
+    shouldBeInsert f = (fileNum $ head f) `Set.notMember` processed
+      && length f <= numSpaces
+
+checksum :: Int -> ParseData -> Int
+checksum i (File x) = i * x
+checksum _ Space = 0
+
 foldBreakPoint :: [(Int, (Int, Int))] -> ParseData -> [(Int, (Int, Int))]
 foldBreakPoint ((i, (a, b)):r) (File _) = ((i + 1, (a + 1, b)):(i, (a, b)):r)
 foldBreakPoint ((i, (a, b)):r) Space    = ((i + 1, (a, b - 1)):(i, (a, b)):r)
