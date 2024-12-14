@@ -5,7 +5,7 @@ module Day14 (day14) where
 import Data.Text (Text)
 import Data.Void (Void)
 import Data.List (foldl')
-import Data.List.Index (modifyAt)
+import Data.List.Index (modifyAt, ifindIndex)
 import Control.Monad (void)
 import Control.Lens.Getter (view)
 import Data.Maybe (fromJust)
@@ -22,13 +22,32 @@ data Robot = Robot { initialPos :: Point
                    ,   velocity :: Point } deriving Show
 
 day14 :: Text -> (String, String)
-day14 d = (show $ part1 parsed, "")
+day14 d = (show $ part1 parsed, show $ part2 parsed)
   where parsed = fromJust $ parseMaybe parser d
 
 part1 :: [Robot] -> Int
-part1 robots = foldl' (*) 1 $ foldl' (countRobot b) [0, 0, 0, 0]
-  $ fmap (moveRobot b 100) robots
-  where b = (101, 103)
+part1 = foldl' (*) 1 . getQuads (101, 103) 100
+
+part2 :: [Robot] -> Int
+part2 d = fromJust $ ifindIndex (const $ maybeATree (101, 103))
+  $ fmap (\x -> fmap (moveRobot (101, 103) x) d) [0..]
+
+maybeATree :: (Int, Int) -> [Robot] -> Bool
+maybeATree b r = (>= 2) $ length $ filter (>= 20)
+  $ fmap (\x -> length
+                $ filter (\(p, q) -> initialPos q == initialPos p + V2 0 1)
+                $ pairs $ filter (isInColumn x) r)
+  [0..(snd b) - 1]
+
+pairs :: [a] -> [(a, a)]
+pairs (x:xs) = fmap ((,) x) xs ++ fmap (\y -> (y, x)) xs ++ pairs xs
+pairs _ = []
+
+isInColumn :: Int -> Robot -> Bool
+isInColumn x r = x == (view _x $ initialPos r)
+
+getQuads :: (Int, Int) -> Int -> [Robot] -> [Int]
+getQuads b t = foldl' (countRobot b) [0, 0, 0, 0] . fmap (moveRobot b t)
 
 countRobot :: (Int, Int) -> [Int] -> Robot -> [Int]
 countRobot (bx, by) q r =
