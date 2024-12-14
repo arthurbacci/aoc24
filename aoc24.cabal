@@ -25,6 +25,7 @@ data-files:
     data08.txt
     data09.txt
     data12.txt
+    data13.txt
     data14.txt
     answer01.txt
     answer02.txt
@@ -35,6 +36,7 @@ data-files:
     answer08.txt
     answer09.txt
     answer12.txt
+    answer13.txt
     answer14.txt
 data-dir:       data
 
@@ -46,6 +48,7 @@ library
   exposed-modules:
       Day1
       Day12
+      Day13
       Day14
       Day2
       Day3
@@ -67,6 +70,7 @@ library
     , containers
     , criterion
     , extra
+    , hmatrix
     , ilist
     , lens
     , linear
@@ -93,6 +97,7 @@ test-suite aoc24-test
     , containers
     , criterion
     , extra
+    , hmatrix
     , ilist
     , lens
     , linear

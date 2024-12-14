@@ -21,7 +21,7 @@ import Day9
 
 
 import Day12
-
+import Day13
 import Day14
 
 type DayNum = String
@@ -47,6 +47,6 @@ days = fmap (uncurry createDay) incompleteDays
                          , (day4 , "04"), (day5 , "05")
                          , (day7 , "07"), (day8 , "08"), (day9 , "09")
                                                        , (day12, "12")
-                                        , (day14, "14") ]
+                         , (day13, "13"), (day14, "14") ]
 
 

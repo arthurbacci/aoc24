@@ -29,6 +29,7 @@ dependencies:
 - lens
 - containers
 - unordered-containers
+- hmatrix
 
 ghc-options:
 - -Wall
