@@ -22,6 +22,8 @@ import Day9
 
 import Day12
 
+import Day14
+
 type DayNum = String
 
 type Answer = (String, String)
@@ -44,6 +46,7 @@ days = fmap (uncurry createDay) incompleteDays
   where incompleteDays = [ (day1 , "01"), (day2 , "02"), (day3 , "03")
                          , (day4 , "04"), (day5 , "05")
                          , (day7 , "07"), (day8 , "08"), (day9 , "09")
-                                                       , (day12, "12") ]
+                                                       , (day12, "12")
+                                        , (day14, "14") ]
 
 
